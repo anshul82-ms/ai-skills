@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Demo — Appointment Booking · Sharma Classes</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --cream: #F9F6F0;
+    --ink: #1A1814;
+    --ink-muted: #6B6760;
+    --ink-faint: #B0ADA8;
+    --accent: #2055A4;
+    --accent-light: #E4ECFA;
+    --green: #2A6B4A;
+    --green-light: #E4F0EB;
+    --orange: #D4522A;
+    --orange-light: #FAE8E1;
+    --border: rgba(26,24,20,0.1);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); font-size: 16px; line-height: 1.6; }
+
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(249,246,240,0.92); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 56px;
+  }
+  .nav-brand { font-family: 'Fraunces', serif; font-size: 17px; color: var(--ink); text-decoration: none; }
+  .nav-brand span { color: var(--orange); }
+  .nav-back { font-size: 13px; font-weight: 500; color: var(--ink-muted); text-decoration: none; padding: 6px 14px; border-radius: 100px; border: 1px solid var(--border); transition: all 0.2s; }
+  .nav-back:hover { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+
+  .hero { max-width: 780px; margin: 0 auto; padding: 4rem 2rem 2.5rem; text-align: center; }
+  .hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); background: var(--accent-light); padding: 4px 14px; border-radius: 100px; margin-bottom: 1.25rem; }
+  .hero h1 { font-family: 'Fraunces', serif; font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 600; line-height: 1.2; margin-bottom: 1rem; }
+  .hero h1 em { font-style: italic; color: var(--accent); }
+  .hero p { font-size: 16px; color: var(--ink-muted); max-width: 500px; margin: 0 auto 1.5rem; line-height: 1.7; }
+  .hero-rule { width: 48px; height: 2px; background: var(--accent); margin: 0 auto; border-radius: 2px; }
+
+  .acts { max-width: 960px; margin: 0 auto; padding: 2rem 2rem 6rem; }
+  .act-tabs { display: flex; gap: 8px; margin-bottom: 2rem; flex-wrap: wrap; }
+  .act-tab { display: flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 100px; border: 1px solid var(--border); background: white; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; color: var(--ink-muted); transition: all 0.2s; }
+  .act-tab:hover { border-color: rgba(26,24,20,0.25); color: var(--ink); }
+  .act-tab.active { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+  .act-num { width: 20px; height: 20px; border-radius: 50%; font-size: 11px; font-weight: 500; display: flex; align-items: center; justify-content: center; }
+  .act-tab.active .act-num { background: rgba(255,255,255,0.15); }
+  .act-tab:not(.active) .act-num { background: var(--accent-light); color: var(--accent); }
+
+  .act-panel { display: none; }
+  .act-panel.visible { display: block; animation: fadeUp 0.3s ease; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  .sec-label { font-size: 11px; font-weight: 500; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-faint); margin: 0 0 1rem; display: flex; align-items: center; gap: 10px; }
+  .sec-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 1.5rem; }
+  .col-card { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 1.25rem 1.5rem; }
+  .col-label { font-size: 11px; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 8px; }
+  .col-label.red { color: var(--orange); }
+  .col-label.green { color: var(--green); }
+  .col-body { font-size: 14px; color: var(--ink-muted); line-height: 1.6; }
+
+  .prompt-card { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 1.5rem; margin-bottom: 1.5rem; }
+  .prompt-label { font-size: 11px; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+  .prompt-text { font-size: 14px; color: var(--ink); line-height: 1.7; font-style: italic; padding-left: 14px; border-left: 2.5px solid var(--accent); }
+
+  .calendly-mock { background: white; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 1.5rem; }
+  .cal-head { background: var(--accent); padding: 14px 20px; display: flex; align-items: center; gap: 12px; }
+  .cal-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--accent-light); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 500; color: var(--accent); }
+  .cal-name { font-size: 14px; font-weight: 500; color: white; }
+  .cal-sub { font-size: 12px; color: rgba(255,255,255,0.75); }
+  .cal-body { display: grid; grid-template-columns: 1fr 1fr; }
+  .cal-left { padding: 16px 18px; border-right: 1px solid var(--border); }
+  .cal-event { padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 8px; }
+  .cal-event-title { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 2px; }
+  .cal-event-meta { font-size: 12px; color: var(--ink-muted); }
+  .cal-right { padding: 16px 18px; }
+  .cal-month { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 10px; text-align: center; }
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; margin-bottom: 12px; }
+  .cal-day { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; color: var(--ink-muted); }
+  .cal-day.avail { color: var(--accent); font-weight: 500; cursor: pointer; }
+  .cal-day.sel { background: var(--accent); color: white; }
+  .cal-slots { display: flex; flex-direction: column; gap: 6px; }
+  .cal-slot { padding: 6px 10px; border: 1px solid var(--accent); border-radius: 8px; font-size: 12px; color: var(--accent); font-weight: 500; text-align: center; cursor: pointer; }
+
+  .confirm-card { background: var(--green-light); border: 1px solid #b2d4c3; border-radius: 14px; padding: 1.5rem; max-width: 360px; margin-bottom: 1.5rem; }
+  .confirm-title { font-family: 'Fraunces', serif; font-size: 18px; color: var(--green); margin-bottom: 4px; }
+  .confirm-sub { font-size: 13px; color: #27500A; margin-bottom: 14px; line-height: 1.5; }
+  .confirm-rows { display: flex; flex-direction: column; gap: 7px; }
+  .confirm-row { display: flex; gap: 12px; font-size: 13px; }
+  .confirm-key { color: #3B6D11; min-width: 70px; font-weight: 500; }
+  .confirm-val { color: #1a4a31; }
+
+  .steps-list { display: flex; flex-direction: column; gap: 14px; margin-bottom: 1.5rem; }
+  .s-row { display: flex; gap: 14px; align-items: flex-start; }
+  .s-num { width: 30px; height: 30px; border-radius: 50%; font-size: 13px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .s-num.blue { background: var(--accent-light); color: var(--accent); }
+  .s-num.green { background: var(--green-light); color: var(--green); }
+  .s-body { flex: 1; }
+  .s-title { font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 3px; }
+  .s-detail { font-size: 14px; color: var(--ink-muted); line-height: 1.6; }
+  .s-path { display: inline-block; font-size: 12px; font-weight: 500; padding: 3px 12px; border-radius: 100px; margin-top: 6px; }
+  .s-path.blue { color: var(--accent); background: var(--accent-light); }
+  .s-path.green { color: var(--green); background: var(--green-light); }
+  .s-conn { width: 1px; height: 12px; background: var(--border); margin-left: 14px; }
+
+  .divider { display: flex; align-items: center; gap: 12px; margin: 2rem 0 1.5rem; }
+  .div-line { flex: 1; height: 1px; background: var(--border); }
+  .div-badge { font-size: 11px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-muted); padding: 4px 14px; border: 1px solid var(--border); border-radius: 100px; white-space: nowrap; }
+
+  .tip { border-radius: 12px; padding: 14px 18px; margin-top: 1rem; }
+  .tip.blue { background: var(--accent-light); }
+  .tip.green { background: var(--green-light); }
+  .tip-label { font-size: 11px; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 5px; }
+  .tip.blue .tip-label { color: var(--accent); }
+  .tip.green .tip-label { color: var(--green); }
+  .tip.blue .tip-body { font-size: 14px; color: #0C447C; line-height: 1.6; }
+  .tip.green .tip-body { font-size: 14px; color: #27500A; line-height: 1.6; }
+
+  .wa-reply { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 1.5rem; margin-bottom: 1.5rem; }
+  .wa-reply-label { font-size: 11px; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: #25D366; margin-bottom: 10px; }
+  .wa-shortcut-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .wa-shortcut { background: #E8F5E9; color: #1a7340; font-size: 13px; font-weight: 500; padding: 4px 12px; border-radius: 100px; border: 1px solid #c8e6c9; }
+  .wa-shortcut-arrow { color: var(--ink-faint); font-size: 16px; }
+  .wa-msg { font-size: 14px; color: var(--ink-muted); line-height: 1.6; font-style: italic; padding: 10px 14px; background: var(--cream); border-radius: 10px; }
+
+  .pills { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 1.25rem; }
+  .pill { padding: 8px 14px; border-radius: 10px; font-size: 13px; font-weight: 500; }
+
+  footer { border-top: 1px solid var(--border); text-align: center; padding: 2rem; font-size: 13px; color: var(--ink-faint); }
+  footer strong { color: var(--ink-muted); }
+
+  @media (max-width: 600px) {
+    .two-col { grid-template-columns: 1fr; }
+    .cal-body { grid-template-columns: 1fr; }
+    .acts, .hero { padding-left: 1.25rem; padding-right: 1.25rem; }
+    nav { padding: 0 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="index.html"><span>AI</span> at Work</a>
+  <a class="nav-back" href="index.html">← Back to case studies</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-eyebrow">AI Demo · Calendly</div>
+  <h1>From phone tag<br />to <em>one booking link</em></h1>
+  <p>Sharma Classes, Nagpur — how a student set up an automated appointment system in 45 minutes so parents book themselves.</p>
+  <div class="hero-rule"></div>
+</section>
+
+<div class="acts">
+  <div class="act-tabs">
+    <div class="act-tab active" onclick="show(0,this)"><div class="act-num">1</div> The problem</div>
+    <div class="act-tab" onclick="show(1,this)"><div class="act-num">2</div> AI writes the copy</div>
+    <div class="act-tab" onclick="show(2,this)"><div class="act-num">3</div> Calendly setup</div>
+    <div class="act-tab" onclick="show(3,this)"><div class="act-num">4</div> Parent experience</div>
+    <div class="act-tab" onclick="show(4,this)"><div class="act-num">5</div> Google Calendar backup</div>
+  </div>
+
+  <div class="act-panel visible" id="a0">
+    <div class="sec-label">Sharma sir's current reality</div>
+    <div class="two-col">
+      <div class="col-card">
+        <div class="col-label red">Before — phone chaos</div>
+        <div class="col-body">Parents call during class to schedule visits. He misses calls, calls back during lunch, double-books slots, forgets appointments. Some parents give up and choose another center.</div>
+      </div>
+      <div class="col-card">
+        <div class="col-label green">After — booking link</div>
+        <div class="col-body">Parent clicks a link, picks a slot from available times, gets an automatic confirmation. Sharma sir sees all appointments in his calendar. No calls. No double bookings. No no-shows.</div>
+      </div>
+    </div>
+
+    <div class="tip blue">
+      <div class="tip-label">The student's role</div>
+      <div class="tip-body">Sharma sir is brilliant at teaching. He has no time to learn Calendly. The student sets it up, writes all the text using AI, and hands over one link. That's the service — and it directly stops him from losing potential students.</div>
+    </div>
+  </div>
+
+  <div class="act-panel" id="a1">
+    <div class="sec-label">Live prompt to run in class</div>
+    <div class="prompt-card">
+      <div class="prompt-label">Paste this into ChatGPT or Claude</div>
+      <div class="prompt-text">"Write the following for a Calendly booking page for Sharma Classes, a coaching center in Nagpur for Class 8–12 students: 1) A short warm description for the Parent Visit slot (20 minutes, in person). 2) A confirmation email the parent receives after booking. 3) A reminder message sent 1 hour before the visit. Keep everything under 80 words each, professional but friendly."</div>
+    </div>
+
+    <div class="tip blue">
+      <div class="tip-label">Teaching point</div>
+      <div class="tip-body">The student uses AI to write every piece of text on the booking page. Calendly handles the automation. The student's skill is knowing how to combine the two — and making the whole thing feel professional.</div>
+    </div>
+  </div>
+
+  <div class="act-panel" id="a2">
+    <div class="sec-label">Setting up Calendly — step by step</div>
+    <div class="steps-list">
+      <div class="s-row">
+        <div class="s-num blue">1</div>
+        <div class="s-body">
+          <div class="s-title">Create a free Calendly account</div>
+          <div class="s-detail">Go to calendly.com and sign up free with Google. The free plan allows one event type — all Sharma sir needs.</div>
+          <div class="s-path blue">calendly.com → Sign up free</div>
+        </div>
+      </div>
+      <div class="s-conn"></div>
+      <div class="s-row">
+        <div class="s-num blue">2</div>
+        <div class="s-body">
+          <div class="s-title">Create the event type</div>
+          <div class="s-detail">Click "New Event Type" → One-on-one. Name it "Parent Visit — Sharma Classes". Set duration to 20 minutes. Paste the AI-written description.</div>
+          <div class="s-path blue">New Event Type → One-on-one → 20 min</div>
+        </div>
+      </div>
+      <div class="s-conn"></div>
+      <div class="s-row">
+        <div class="s-num blue">3</div>
+        <div class="s-body">
+          <div class="s-title">Set available hours</div>
+          <div class="s-detail">Set Sharma sir's visit hours — e.g. Mon, Wed, Fri 5–7 PM only. Parents can only book within these windows. Teaching hours are automatically blocked.</div>
+          <div class="s-path blue">Availability → Set weekly hours</div>
+        </div>
+      </div>
+      <div class="s-conn"></div>
+      <div class="s-row">
+        <div class="s-num blue">4</div>
+        <div class="s-body">
+          <div class="s-title">Paste the AI-written confirmation email</div>
+          <div class="s-detail">Add the address, what to bring, and what to expect. This goes automatically to every parent who books — zero effort from Sharma sir.</div>
+          <div class="s-path blue">Notifications → Confirmation email → Edit</div>
+        </div>
+      </div>
+      <div class="s-conn"></div>
+      <div class="s-row">
+        <div class="s-num blue">5</div>
+        <div class="s-body">
+          <div class="s-title">Share the booking link on WhatsApp</div>
+          <div class="s-detail">Copy the link and set it as a WhatsApp Business Quick Reply using the shortcut /visit. Any parent who asks to visit gets the link in one tap.</div>
+          <div class="s-path blue">Share → Copy link → Add as /visit quick reply</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-label">The /visit quick reply in WhatsApp Business</div>
+    <div class="wa-reply">
+      <div class="wa-reply-label">WhatsApp Business quick reply</div>
+      <div class="wa-shortcut-row">
+        <div class="wa-shortcut">/visit</div>
+        <div class="wa-shortcut-arrow">→</div>
+      </div>
+      <div class="wa-msg">"Thank you for your interest in Sharma Classes! You can book a parent visit slot directly here: calendly.com/sharma-classes/parent-visit — pick a time that works for you and we'll see you then!"</div>
+    </div>
+  </div>
+
+  <div class="act-panel" id="a3">
+    <div class="sec-label">What the parent sees — the booking page</div>
+    <div class="calendly-mock">
+      <div class="cal-head">
+        <div class="cal-avatar">SC</div>
+        <div>
+          <div class="cal-name">Sharma Classes</div>
+          <div class="cal-sub">Parent Visit — 20 minutes</div>
+        </div>
+      </div>
+      <div class="cal-body">
+        <div class="cal-left">
+          <div style="font-size:14px;font-weight:500;color:var(--ink);margin-bottom:6px;">Parent Visit</div>
+          <div style="font-size:13px;color:var(--ink-muted);line-height:1.55;margin-bottom:10px;">Come see our center, meet the teacher, and find out if Sharma Classes is the right fit for your child.</div>
+          <div style="font-size:12px;color:var(--ink-muted);">20 min &nbsp;·&nbsp; In person</div>
+          <div style="font-size:12px;color:var(--ink-muted);margin-top:4px;">Civil Lines, Nagpur</div>
+        </div>
+        <div class="cal-right">
+          <div class="cal-month">March 2025</div>
+          <div class="cal-grid">
+            <div class="cal-day" style="font-size:10px;color:var(--ink-faint);">M</div>
+            <div class="cal-day" style="font-size:10px;color:var(--ink-faint);">T</div>
+            <div class="cal-day" style="font-size:10px;color:var(--ink-faint);">W</div>
+            <div class="cal-day" style="font-size:10px;color:var(--ink-faint);">T</div>
+            <div class="cal-day" style="font-size:10px;color:var(--ink-faint);">F</div>
+            <div class="cal-day" style="font-size:10px;color:var(--ink-faint);">S</div>
+            <div class="cal-day" style="font-size:10px;color:var(--ink-faint);">S</div>
+            <div class="cal-day avail">3</div><div class="cal-day">4</div><div class="cal-day avail">5</div><div class="cal-day">6</div><div class="cal-day avail">7</div><div class="cal-day">8</div><div class="cal-day">9</div>
+            <div class="cal-day avail">10</div><div class="cal-day">11</div><div class="cal-day sel">12</div><div class="cal-day">13</div><div class="cal-day avail">14</div><div class="cal-day">15</div><div class="cal-day">16</div>
+          </div>
+          <div class="cal-slots">
+            <div class="cal-slot">5:00 PM</div>
+            <div class="cal-slot">5:30 PM</div>
+            <div class="cal-slot">6:00 PM</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-label">Automatic confirmation the parent receives</div>
+    <div class="confirm-card">
+      <div class="confirm-title">Your visit is confirmed</div>
+      <div class="confirm-sub">Looking forward to meeting you at Sharma Classes. Here's everything you need to know.</div>
+      <div class="confirm-rows">
+        <div class="confirm-row"><span class="confirm-key">What</span><span class="confirm-val">Parent Visit — 20 min</span></div>
+        <div class="confirm-row"><span class="confirm-key">When</span><span class="confirm-val">Wed 12 March, 5:00 PM</span></div>
+        <div class="confirm-row"><span class="confirm-key">Where</span><span class="confirm-val">14 Civil Lines, Nagpur</span></div>
+        <div class="confirm-row"><span class="confirm-key">Bring</span><span class="confirm-val">Child's latest report card</span></div>
+      </div>
+    </div>
+
+    <div class="tip blue">
+      <div class="tip-label">Teaching point</div>
+      <div class="tip-body">The parent booked, got a confirmation, knows exactly where to go and what to bring — all without a single call or WhatsApp message from Sharma sir. He gets a notification and sees it in his calendar. That's what automation looks like.</div>
+    </div>
+
+    <div class="pills">
+      <div class="pill" style="background:#E4ECFA; color:#185FA5;">Zero phone tag</div>
+      <div class="pill" style="background:#E4F0EB; color:#2A6B4A;">Auto confirmations</div>
+      <div class="pill" style="background:#FAEEDA; color:#633806;">Setup: 45 min</div>
+      <div class="pill" style="background:#EEEDFE; color:#534AB7;">Runs forever — free</div>
+    </div>
+  </div>
+
+  <div class="act-panel" id="a4">
+    <div class="divider">
+      <div class="div-line"></div>
+      <div class="div-badge">If Calendly doesn't work — use this instead</div>
+      <div class="div-line"></div>
+    </div>
+
+    <div class="sec-label">Google Calendar appointment slots — backup option</div>
+    <div class="steps-list">
+      <div class="s-row">
+        <div class="s-num green">1</div>
+        <div class="s-body">
+          <div class="s-title">Open Google Calendar</div>
+          <div class="s-detail">Go to calendar.google.com — 100% free with any Google account. No new tool to learn.</div>
+          <div class="s-path green">calendar.google.com</div>
+        </div>
+      </div>
+      <div class="s-conn"></div>
+      <div class="s-row">
+        <div class="s-num green">2</div>
+        <div class="s-body">
+          <div class="s-title">Create appointment slots</div>
+          <div class="s-detail">Click any time on the calendar → select "Appointment slots" instead of Event. Set duration to 20 minutes. Google splits the block into bookable slots automatically.</div>
+          <div class="s-path green">Click time → Appointment slots → 20 min</div>
+        </div>
+      </div>
+      <div class="s-conn"></div>
+      <div class="s-row">
+        <div class="s-num green">3</div>
+        <div class="s-body">
+          <div class="s-title">Get the booking page link</div>
+          <div class="s-detail">Google generates a booking page automatically. Parents can see available slots and book directly — no account needed on their end.</div>
+          <div class="s-path green">Appointment event → View booking page → Copy link</div>
+        </div>
+      </div>
+      <div class="s-conn"></div>
+      <div class="s-row">
+        <div class="s-num green">4</div>
+        <div class="s-body">
+          <div class="s-title">Share the link the same way</div>
+          <div class="s-detail">Add to WhatsApp Business as a /visit quick reply, Instagram bio, and Google Business listing. When parents book, both sides get a calendar invite automatically.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tip green">
+      <div class="tip-label">Calendly vs Google Calendar</div>
+      <div class="tip-body">Calendly looks more professional and is easier to customize — use it as the primary demo. Google Calendar is the backup if the owner already lives in Google and doesn't want another tool. Both are free. Both work perfectly.</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>Made for <strong>Week 3 — From Skills to Income in the World of AI</strong></p>
+</footer>
+
+<script>
+function show(i, el) {
+  document.querySelectorAll('.act-panel').forEach((p,idx) => p.classList.toggle('visible', idx===i));
+  document.querySelectorAll('.act-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
