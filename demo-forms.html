@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Demo — Order Form · Priya's Bakery</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --cream: #F9F6F0;
+    --ink: #1A1814;
+    --ink-muted: #6B6760;
+    --ink-faint: #B0ADA8;
+    --accent: #D4522A;
+    --accent-light: #FAE8E1;
+    --green: #2A6B4A;
+    --green-light: #E4F0EB;
+    --blue: #2055A4;
+    --blue-light: #E4ECFA;
+    --border: rgba(26,24,20,0.1);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); font-size: 16px; line-height: 1.6; }
+
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(249,246,240,0.92); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 56px;
+  }
+  .nav-brand { font-family: 'Fraunces', serif; font-size: 17px; color: var(--ink); text-decoration: none; }
+  .nav-brand span { color: var(--accent); }
+  .nav-back { font-size: 13px; font-weight: 500; color: var(--ink-muted); text-decoration: none; padding: 6px 14px; border-radius: 100px; border: 1px solid var(--border); transition: all 0.2s; }
+  .nav-back:hover { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+
+  .hero { max-width: 780px; margin: 0 auto; padding: 4rem 2rem 2.5rem; text-align: center; }
+  .hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); background: var(--accent-light); padding: 4px 14px; border-radius: 100px; margin-bottom: 1.25rem; }
+  .hero h1 { font-family: 'Fraunces', serif; font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 600; line-height: 1.2; margin-bottom: 1rem; }
+  .hero h1 em { font-style: italic; color: var(--accent); }
+  .hero p { font-size: 16px; color: var(--ink-muted); max-width: 500px; margin: 0 auto 1.5rem; line-height: 1.7; }
+  .hero-rule { width: 48px; height: 2px; background: var(--accent); margin: 0 auto; border-radius: 2px; }
+
+  .acts { max-width: 960px; margin: 0 auto; padding: 2rem 2rem 6rem; }
+  .act-tabs { display: flex; gap: 8px; margin-bottom: 2rem; flex-wrap: wrap; }
+  .act-tab { display: flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 100px; border: 1px solid var(--border); background: white; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; color: var(--ink-muted); transition: all 0.2s; }
+  .act-tab:hover { border-color: rgba(26,24,20,0.25); color: var(--ink); }
+  .act-tab.active { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+  .act-num { width: 20px; height: 20px; border-radius: 50%; background: rgba(255,255,255,0.15); font-size: 11px; font-weight: 500; display: flex; align-items: center; justify-content: center; }
+  .act-tab:not(.active) .act-num { background: var(--accent-light); color: var(--accent); }
+
+  .act-panel { display: none; }
+  .act-panel.visible { display: block; animation: fadeUp 0.3s ease; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  .sec-label { font-size: 11px; font-weight: 500; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-faint); margin: 0 0 1rem; display: flex; align-items: center; gap: 10px; }
+  .sec-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 1.5rem; }
+  .col-card { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 1.25rem 1.5rem; }
+  .col-label { font-size: 11px; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 8px; }
+  .col-label.red { color: var(--accent); }
+  .col-label.green { color: var(--green); }
+  .col-body { font-size: 14px; color: var(--ink-muted); line-height: 1.6; }
+
+  .wa-thread { background: #ECE5DD; border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 8px; max-width: 340px; margin-bottom: 1.5rem; }
+  .wa-bubble { border-radius: 0 10px 10px 10px; background: white; padding: 9px 12px; font-size: 13px; color: var(--ink); line-height: 1.55; max-width: 90%; align-self: flex-start; }
+
+  .prompt-card { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 1.5rem; margin-bottom: 1.5rem; }
+  .prompt-label { font-size: 11px; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+  .prompt-text { font-size: 14px; color: var(--ink); line-height: 1.7; font-style: italic; padding-left: 14px; border-left: 2.5px solid var(--accent); }
+
+  .form-preview { background: white; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 1.5rem; }
+  .form-top { background: var(--accent); padding: 18px 22px; }
+  .form-top-title { font-family: 'Fraunces', serif; font-size: 18px; color: white; margin-bottom: 4px; }
+  .form-top-sub { font-size: 13px; color: rgba(255,255,255,0.8); }
+  .form-fields { padding: 18px 22px; display: flex; flex-direction: column; gap: 16px; }
+  .form-field-label { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 5px; }
+  .form-required { color: var(--accent); }
+  .form-input { width: 100%; padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; color: var(--ink-muted); background: var(--cream); }
+  .form-options { display: flex; flex-direction: column; gap: 6px; }
+  .form-option { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink); }
+  .radio { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid var(--border); flex-shrink: 0; }
+  .radio.on { border-color: var(--accent); background: var(--accent); }
+
+  .steps-list { display: flex; flex-direction: column; gap: 14px; margin-bottom: 1.5rem; }
+  .s-row { display: flex; gap: 14px; align-items: flex-start; }
+  .s-num { width: 30px; height: 30px; border-radius: 50%; background: var(--accent-light); color: var(--accent); font-size: 13px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .s-body { flex: 1; }
+  .s-title { font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 3px; }
+  .s-detail { font-size: 14px; color: var(--ink-muted); line-height: 1.6; }
+  .s-path { display: inline-block; font-size: 12px; font-weight: 500; color: var(--accent); background: var(--accent-light); padding: 3px 12px; border-radius: 100px; margin-top: 6px; }
+  .s-conn { width: 1px; height: 12px; background: var(--border); margin-left: 14px; }
+
+  .sheet-wrap { background: white; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 1.5rem; }
+  .sheet-bar { background: #1a7340; padding: 10px 16px; display: flex; align-items: center; gap: 8px; }
+  .sheet-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .sheet-title { font-size: 13px; color: white; font-weight: 500; margin-left: 4px; }
+  .sheet-scroll { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 560px; }
+  thead th { background: #e8f5e9; color: #1a7340; padding: 9px 14px; text-align: left; font-weight: 500; white-space: nowrap; border-bottom: 1px solid #c8e6c9; }
+  tbody td { padding: 9px 14px; border-bottom: 1px solid var(--border); color: var(--ink); white-space: nowrap; }
+  tbody tr:last-child td { color: #1a7340; font-weight: 500; }
+
+  .tip { background: var(--accent-light); border-radius: 12px; padding: 14px 18px; margin-top: 1rem; }
+  .tip-label { font-size: 11px; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+  .tip-body { font-size: 14px; color: #7a2a12; line-height: 1.6; }
+
+  .pills { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 1.25rem; }
+  .pill { padding: 8px 14px; border-radius: 10px; font-size: 13px; font-weight: 500; }
+
+  footer { border-top: 1px solid var(--border); text-align: center; padding: 2rem; font-size: 13px; color: var(--ink-faint); }
+  footer strong { color: var(--ink-muted); }
+
+  @media (max-width: 600px) {
+    .two-col { grid-template-columns: 1fr; }
+    .acts, .hero { padding-left: 1.25rem; padding-right: 1.25rem; }
+    nav { padding: 0 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="index.html"><span>AI</span> at Work</a>
+  <a class="nav-back" href="index.html">← Back to case studies</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-eyebrow">AI Demo · Google Forms</div>
+  <h1>From WhatsApp chaos<br />to <em>one clean form</em></h1>
+  <p>Priya's Home Bakery, Mumbai — how a student built an automated order system in 45 minutes using AI and Google Forms.</p>
+  <div class="hero-rule"></div>
+</section>
+
+<div class="acts">
+  <div class="act-tabs">
+    <div class="act-tab active" onclick="show(0,this)"><div class="act-num">1</div> The problem</div>
+    <div class="act-tab" onclick="show(1,this)"><div class="act-num">2</div> AI builds the form</div>
+    <div class="act-tab" onclick="show(2,this)"><div class="act-num">3</div> Set up in Google</div>
+    <div class="act-tab" onclick="show(3,this)"><div class="act-num">4</div> Orders in Sheets</div>
+  </div>
+
+  <div class="act-panel visible" id="a0">
+    <div class="sec-label">Priya's current reality</div>
+    <div class="two-col">
+      <div class="col-card">
+        <div class="col-label red">Before — WhatsApp chaos</div>
+        <div class="col-body">Every order is a long back-and-forth. "What size?" "Which flavor?" "What date?" "Any message on the cake?" — typed fresh every time. Orders get mixed up. Details get forgotten.</div>
+      </div>
+      <div class="col-card">
+        <div class="col-label green">After — Google Form</div>
+        <div class="col-body">Customer fills one form. All details captured instantly. Priya opens a Google Sheet and sees every order neatly listed. No back-and-forth. No confusion. No missed orders.</div>
+      </div>
+    </div>
+
+    <div class="sec-label">What a customer used to send Priya</div>
+    <div class="wa-thread">
+      <div class="wa-bubble">Hi I want to order a cake for my son's birthday on the 15th. Chocolate flavor. Can you do fondant? Not sure what size. Budget around 1500.</div>
+      <div class="wa-bubble">Oh and can you write Happy Birthday Arjun on it</div>
+      <div class="wa-bubble">Also what's your delivery charge for Bandra?</div>
+    </div>
+
+    <div class="tip">
+      <div class="tip-label">Teaching point</div>
+      <div class="tip-body">Three separate messages, missing half the details Priya needs — no delivery address, no phone number. She spends 20 more minutes chasing information before confirming the order. Multiply this by 10 orders a week.</div>
+    </div>
+  </div>
+
+  <div class="act-panel" id="a1">
+    <div class="sec-label">Live prompt to run in class</div>
+    <div class="prompt-card">
+      <div class="prompt-label">Paste this into ChatGPT or Claude</div>
+      <div class="prompt-text">"Create a Google Form for a home bakery called Priya's Cakes in Mumbai. The form should collect all the information needed to place a custom cake order — customer name, phone number, delivery date, cake flavor, size, type of frosting, message on cake, delivery address, and budget. Write clear friendly labels for each field and add helpful placeholder text. Also write a warm confirmation message the customer sees after submitting."</div>
+    </div>
+
+    <div class="sec-label">What the AI-designed form looks like</div>
+    <div class="form-preview">
+      <div class="form-top">
+        <div class="form-top-title">Order your custom cake</div>
+        <div class="form-top-sub">Priya's Cakes, Mumbai — fill this in and we'll confirm within 2 hours</div>
+      </div>
+      <div class="form-fields">
+        <div>
+          <div class="form-field-label">Your name <span class="form-required">*</span></div>
+          <div class="form-input">e.g. Sunita Sharma</div>
+        </div>
+        <div>
+          <div class="form-field-label">WhatsApp number <span class="form-required">*</span></div>
+          <div class="form-input">So we can confirm your order</div>
+        </div>
+        <div>
+          <div class="form-field-label">Delivery date needed <span class="form-required">*</span></div>
+          <div class="form-input">Please order at least 3 days in advance</div>
+        </div>
+        <div>
+          <div class="form-field-label">Cake flavor <span class="form-required">*</span></div>
+          <div class="form-options">
+            <div class="form-option"><div class="radio on"></div> Chocolate</div>
+            <div class="form-option"><div class="radio"></div> Vanilla</div>
+            <div class="form-option"><div class="radio"></div> Red Velvet</div>
+            <div class="form-option"><div class="radio"></div> Butterscotch</div>
+          </div>
+        </div>
+        <div>
+          <div class="form-field-label">Message on the cake</div>
+          <div class="form-input">e.g. Happy Birthday Arjun!</div>
+        </div>
+        <div>
+          <div class="form-field-label">Your budget (approx) <span class="form-required">*</span></div>
+          <div class="form-input">e.g. ₹1,500</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tip">
+      <div class="tip-label">Teaching point</div>
+      <div class="tip-body">The student didn't design this form — AI did. The student's job is to take this output, create it in Google Forms, and share the link with Priya. That's 45 minutes of work, done once, that runs forever.</div>
+    </div>
+  </div>
+
+  <div class="act-panel" id="a2">
+    <div class="sec-label">Building it in Google Forms — step by step</div>
+    <div class="steps-list">
+      <div class="s-row">
+        <div class="s-num">1</div>
+        <div class="s-body">
+          <div class="s-title">Open Google Forms</div>
+          <div class="s-detail">Go to forms.google.com — free with any Google account. Click the + button to start a blank form.</div>
+          <div class="s-path">forms.google.com → New form</div>
+        </div>
+      </div>
+      <div class="s-conn"></div>
+      <div class="s-row">
+        <div class="s-num">2</div>
+        <div class="s-body">
+          <div class="s-title">Add the title and description</div>
+          <div class="s-detail">Paste the AI-generated title and subtitle exactly. This is what the customer sees first — it sets the tone and builds trust.</div>
+        </div>
+      </div>
+      <div class="s-conn"></div>
+      <div class="s-row">
+        <div class="s-num">3</div>
+        <div class="s-body">
+          <div class="s-title">Add each field from the AI output</div>
+          <div class="s-detail">For text answers use Short Answer. For flavor and size use Multiple Choice. Mark important fields as Required so customers can't skip them.</div>
+          <div class="s-path">Add question → choose field type → toggle Required</div>
+        </div>
+      </div>
+      <div class="s-conn"></div>
+      <div class="s-row">
+        <div class="s-num">4</div>
+        <div class="s-body">
+          <div class="s-title">Set the confirmation message</div>
+          <div class="s-detail">Paste the AI-written thank you message here — warm, reassuring, tells the customer what happens next. They see this immediately after submitting.</div>
+          <div class="s-path">Settings → Presentation → Confirmation message</div>
+        </div>
+      </div>
+      <div class="s-conn"></div>
+      <div class="s-row">
+        <div class="s-num">5</div>
+        <div class="s-body">
+          <div class="s-title">Connect to Google Sheets</div>
+          <div class="s-detail">Every submission automatically lands in a spreadsheet. Priya opens the sheet each morning and sees all orders in one place — no digging through WhatsApp chats.</div>
+          <div class="s-path">Responses tab → Sheets icon → Create new sheet</div>
+        </div>
+      </div>
+      <div class="s-conn"></div>
+      <div class="s-row">
+        <div class="s-num">6</div>
+        <div class="s-body">
+          <div class="s-title">Share the form link everywhere</div>
+          <div class="s-detail">Copy the link and add it to Priya's WhatsApp Business profile, Instagram bio, and pin it as a WhatsApp status. Every enquiry now goes straight to the form.</div>
+          <div class="s-path">Send → Copy link</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="act-panel" id="a3">
+    <div class="sec-label">What Priya sees every morning</div>
+    <div class="sheet-wrap">
+      <div class="sheet-bar">
+        <div class="sheet-dot" style="background:#ea4335;"></div>
+        <div class="sheet-dot" style="background:#fbbc04;"></div>
+        <div class="sheet-dot" style="background:#34a853;"></div>
+        <div class="sheet-title">Priya's Cakes — Orders</div>
+      </div>
+      <div class="sheet-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Timestamp</th>
+              <th>Name</th>
+              <th>WhatsApp</th>
+              <th>Date needed</th>
+              <th>Flavor</th>
+              <th>Message on cake</th>
+              <th>Budget</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>12 Mar, 9:14am</td>
+              <td>Sunita Sharma</td>
+              <td>98200 11234</td>
+              <td>15 March</td>
+              <td>Chocolate</td>
+              <td>Happy Bday Arjun!</td>
+              <td>₹1,500</td>
+            </tr>
+            <tr>
+              <td>12 Mar, 11:32am</td>
+              <td>Rahul Mehta</td>
+              <td>99870 45321</td>
+              <td>18 March</td>
+              <td>Red Velvet</td>
+              <td>Happy Anniversary</td>
+              <td>₹2,000</td>
+            </tr>
+            <tr>
+              <td>13 Mar, 8:47am</td>
+              <td>Preethi Nair</td>
+              <td>98450 76543</td>
+              <td>20 March</td>
+              <td>Vanilla</td>
+              <td>Welcome Baby!</td>
+              <td>₹1,800</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="tip">
+      <div class="tip-label">Teaching point</div>
+      <div class="tip-body">Every order in one place. Name, number, date, flavor, message, budget — captured without a single back-and-forth. Priya calls to confirm and starts baking. The student set this up once. It runs forever.</div>
+    </div>
+
+    <div class="pills">
+      <div class="pill" style="background:#FAE8E1; color:#993C1D;">Zero back-and-forth</div>
+      <div class="pill" style="background:#E4F0EB; color:#2A6B4A;">No missed orders</div>
+      <div class="pill" style="background:#E4ECFA; color:#2055A4;">Setup time: 45 min</div>
+      <div class="pill" style="background:#EEEDFE; color:#534AB7;">Runs forever — free</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>Made for <strong>Week 3 — From Skills to Income in the World of AI</strong></p>
+</footer>
+
+<script>
+function show(i, el) {
+  document.querySelectorAll('.act-panel').forEach((p,idx) => p.classList.toggle('visible', idx===i));
+  document.querySelectorAll('.act-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
