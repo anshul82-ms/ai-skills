@@ -43,7 +43,8 @@
   }
   .nav-brand { font-family: 'Fraunces', serif; font-size: 17px; color: var(--ink); text-decoration: none; }
   .nav-brand span { color: var(--accent); }
-  .nav-links { display: flex; gap: 8px; }
+  .nav-links { display: flex; gap: 8px; align-items: center; }
+  .nav-divider { width: 1px; height: 18px; background: var(--border); margin: 0 4px; }
   .nav-link {
     font-size: 13px; font-weight: 500; padding: 6px 14px;
     border-radius: 100px; color: var(--ink-muted);
@@ -236,7 +237,107 @@
     nav { padding: 0 1rem; }
     .hero { padding: 3rem 1.5rem 2.5rem; }
     .tabs-wrap, .cases-wrap { padding-left: 1.25rem; padding-right: 1.25rem; }
+    .demo-two-col { grid-template-columns: 1fr; }
   }
+
+  /* PAGE SECTIONS */
+  .page-section { display: none; }
+  .page-section.visible { display: block; }
+
+  /* DEMO PAGE */
+  .demo-hero {
+    max-width: 780px; margin: 0 auto;
+    padding: 5rem 2rem 3rem; text-align: center;
+  }
+  .demo-hero h1 { font-family: 'Fraunces', serif; font-size: clamp(2rem, 5vw, 3rem); font-weight: 600; line-height: 1.15; margin-bottom: 1rem; }
+  .demo-hero h1 em { font-style: italic; color: var(--blue); }
+  .demo-hero p { font-size: 17px; color: var(--ink-muted); max-width: 500px; margin: 0 auto 2rem; line-height: 1.7; }
+
+  .demo-grid { max-width: 960px; margin: 0 auto; padding: 0 2rem 2rem; display: flex; flex-direction: column; gap: 3rem; }
+
+  .demo-card { background: white; border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
+  .demo-card-header { padding: 1.75rem 2rem; display: flex; align-items: center; gap: 1.25rem; border-bottom: 1px solid var(--border); }
+  .demo-card-icon { width: 52px; height: 52px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
+  .demo-card-title { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 600; margin-bottom: 3px; }
+  .demo-card-sub { font-size: 13px; color: var(--ink-muted); }
+  .demo-card-tag { margin-left: auto; font-size: 12px; font-weight: 500; padding: 5px 12px; border-radius: 100px; white-space: nowrap; align-self: flex-start; }
+
+  .demo-card-body { padding: 1.75rem 2rem; }
+
+  .demo-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1.5rem; }
+  .demo-col { padding: 1rem 1.25rem; border-radius: 12px; border: 1px solid var(--border); }
+  .demo-col-label { font-size: 11px; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 8px; }
+  .demo-col-body { font-size: 13px; color: var(--ink-muted); line-height: 1.6; }
+
+  .demo-steps { display: flex; flex-direction: column; gap: 0; margin-bottom: 1.5rem; }
+  .demo-step { display: flex; gap: 1rem; align-items: flex-start; padding: 1rem 0; border-bottom: 1px solid var(--border); }
+  .demo-step:last-child { border-bottom: none; }
+  .demo-step-num { width: 28px; height: 28px; border-radius: 50%; font-size: 12px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+  .demo-step-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 3px; }
+  .demo-step-detail { font-size: 13px; color: var(--ink-muted); line-height: 1.55; }
+  .demo-step-path { display: inline-block; margin-top: 5px; font-size: 12px; font-weight: 500; padding: 3px 10px; border-radius: 100px; }
+
+  .demo-prompt { background: var(--ink); border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; display: flex; gap: 1rem; }
+  .demo-prompt-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 5px; color: #8A9A7E; }
+  .demo-prompt-text { font-size: 14px; color: #E8E4DC; line-height: 1.65; font-style: italic; }
+
+  .demo-form-preview { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 1.5rem; }
+  .form-preview-header { padding: 14px 18px; }
+  .form-preview-title { font-size: 15px; font-weight: 500; color: white; margin-bottom: 2px; }
+  .form-preview-sub { font-size: 12px; color: rgba(255,255,255,0.8); }
+  .form-preview-body { padding: 14px 18px; display: flex; flex-direction: column; gap: 12px; background: white; }
+  .form-field-label { font-size: 12px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+  .form-field-input { font-size: 12px; color: var(--ink-muted); padding: 7px 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--cream); }
+  .form-field-options { display: flex; flex-direction: column; gap: 4px; }
+  .form-field-option { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--ink); }
+  .radio { width: 13px; height: 13px; border-radius: 50%; border: 1.5px solid var(--border); flex-shrink: 0; }
+  .radio.on { border-color: var(--accent); background: var(--accent); }
+
+  .demo-sheet { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 1.5rem; overflow-x: auto; }
+  .sheet-table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 520px; }
+  .sheet-table th { background: #1a7340; color: white; padding: 8px 12px; text-align: left; font-weight: 500; white-space: nowrap; }
+  .sheet-table td { padding: 8px 12px; border-bottom: 0.5px solid var(--border); color: var(--ink); white-space: nowrap; }
+  .sheet-table tr:nth-child(even) td { background: #f7fdf9; }
+  .sheet-new td { color: #1a7340; font-weight: 500; }
+
+  .demo-cal-preview { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 1.5rem; }
+  .cal-preview-header { background: #2055A4; padding: 14px 18px; display: flex; align-items: center; gap: 12px; }
+  .cal-avatar-sm { width: 36px; height: 36px; border-radius: 50%; background: #E4ECFA; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 500; color: #2055A4; }
+  .cal-preview-name { font-size: 14px; font-weight: 500; color: white; }
+  .cal-preview-sub { font-size: 12px; color: rgba(255,255,255,0.75); }
+  .cal-preview-body { display: grid; grid-template-columns: 1fr 1fr; background: white; }
+  .cal-preview-left { padding: 14px 16px; border-right: 1px solid var(--border); }
+  .cal-preview-right { padding: 14px 16px; }
+  .cal-event-name { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+  .cal-event-desc { font-size: 12px; color: var(--ink-muted); line-height: 1.5; margin-bottom: 8px; }
+  .cal-event-meta { font-size: 12px; color: var(--ink-muted); }
+  .cal-mini-month { font-size: 12px; font-weight: 500; color: var(--ink); margin-bottom: 8px; text-align: center; }
+  .cal-mini-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+  .cal-mini-day { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; color: var(--ink-muted); }
+  .cal-mini-day.avail { color: #2055A4; font-weight: 500; cursor: pointer; }
+  .cal-mini-day.sel { background: #2055A4; color: white; }
+  .cal-slots-sm { margin-top: 8px; display: flex; flex-direction: column; gap: 4px; }
+  .cal-slot-sm { padding: 5px 8px; border: 1px solid #2055A4; border-radius: 6px; font-size: 11px; color: #2055A4; font-weight: 500; text-align: center; }
+
+  .confirm-card { background: var(--cream); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; }
+  .confirm-check-circle { width: 36px; height: 36px; border-radius: 50%; background: var(--green-light); display: flex; align-items: center; justify-content: center; margin-bottom: 10px; }
+  .confirm-inner { width: 18px; height: 18px; border-radius: 50%; background: var(--green); }
+  .confirm-title { font-size: 15px; font-weight: 500; margin-bottom: 4px; }
+  .confirm-sub { font-size: 13px; color: var(--ink-muted); margin-bottom: 12px; }
+  .confirm-rows { display: flex; flex-direction: column; gap: 5px; }
+  .confirm-row { display: flex; gap: 12px; font-size: 13px; }
+  .confirm-key { color: var(--ink-faint); min-width: 72px; }
+  .confirm-val { color: var(--ink); font-weight: 500; }
+
+  .demo-tip { border-radius: 10px; padding: 12px 16px; margin-bottom: 1rem; font-size: 13px; line-height: 1.6; }
+  .demo-tip-label { font-size: 11px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 4px; }
+
+  .result-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 1.25rem; }
+  .result-chip { font-size: 13px; font-weight: 500; padding: 7px 14px; border-radius: 8px; }
+
+  .vs-strip { display: flex; align-items: center; gap: 12px; margin: 1.5rem 0 1.25rem; }
+  .vs-line { flex: 1; height: 1px; background: var(--border); }
+  .vs-badge-strip { font-size: 11px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-faint); padding: 4px 12px; border: 1px solid var(--border); border-radius: 100px; white-space: nowrap; }
 </style>
 </head>
 <body>
@@ -244,12 +345,13 @@
 <nav>
   <a class="nav-brand" href="#"><span>AI</span> at Work</a>
   <div class="nav-links">
-    <button class="nav-link active" onclick="show(0,this)">Coaching</button>
-    <button class="nav-link" onclick="show(1,this)">Preschool</button>
-    <button class="nav-link" onclick="show(2,this)">Bakery</button>
+    <button class="nav-link active" onclick="showPage('cases')">Case Studies</button>
+    <div class="nav-divider"></div>
+    <button class="nav-link" onclick="showPage('demos')">AI Demos</button>
   </div>
 </nav>
 
+<div id="page-cases" class="page-section visible">
 <section class="hero">
   <div class="hero-eyebrow">Week 3 · Case Studies</div>
   <h1>Real businesses.<br /><em>Real problems.</em><br />Your opportunity.</h1>
@@ -344,6 +446,8 @@
         <span>Monthly fee:</span><strong>₹5,000 – ₹8,000</strong>
       </div>
     </div>
+
+    <a href="demo-calendly.html" style="display:inline-flex;align-items:center;gap:8px;margin-top:1.25rem;padding:12px 22px;background:#2055A4;color:white;border-radius:100px;font-size:14px;font-weight:500;text-decoration:none;">See the appointment booking demo →</a>
 
     <div class="prompt-box">
       <div class="prompt-icon">⚡</div>
@@ -511,6 +615,8 @@
       </div>
     </div>
 
+    <a href="demo-forms.html" style="display:inline-flex;align-items:center;gap:8px;margin-top:1.25rem;padding:12px 22px;background:#D4522A;color:white;border-radius:100px;font-size:14px;font-weight:500;text-decoration:none;">See the order form demo →</a>
+
     <div class="prompt-box">
       <div class="prompt-icon">⚡</div>
       <div>
@@ -522,18 +628,346 @@
 
 </div>
 
-<footer>
-  <p>Made for <strong>Week 3 — From Skills to Income in the World of AI</strong></p>
-</footer>
+</div><!-- end page-cases -->
+
+<!-- DEMOS PAGE -->
+<div id="page-demos" class="page-section">
+
+  <div class="demo-hero">
+    <div class="hero-eyebrow" style="color:var(--blue); background:var(--blue-light);">Week 3 · AI Demos</div>
+    <h1>Two automations.<br/><em>Zero coding.</em><br/>Real results.</h1>
+    <p>Watch how a student uses free tools and AI to solve real business problems — then replicate it yourself.</p>
+    <div class="hero-rule" style="background:var(--blue);"></div>
+  </div>
+
+  <div class="demo-grid">
+
+    <!-- DEMO 1: PRIYA GOOGLE FORM -->
+    <div class="demo-card">
+      <div class="demo-card-header">
+        <div class="demo-card-icon" style="background:#FAE8E1;">🎂</div>
+        <div>
+          <div class="demo-card-title">Priya's Home Bakery</div>
+          <div class="demo-card-sub">Fixing chaotic WhatsApp orders with a Google Form + Google Sheets</div>
+        </div>
+        <div class="demo-card-tag" style="background:#FAE8E1; color:#993C1D;">Demo 1</div>
+      </div>
+      <div class="demo-card-body">
+
+        <div class="demo-two-col">
+          <div class="demo-col" style="background:#fff8f6;">
+            <div class="demo-col-label" style="color:#993C1D;">Before — WhatsApp chaos</div>
+            <div class="demo-col-body">Every order is a long back-and-forth. Flavor? Size? Date? Message on cake? She types the same questions to every customer. Orders get mixed up. Revenue is lost.</div>
+          </div>
+          <div class="demo-col" style="background:#f4fbf7;">
+            <div class="demo-col-label" style="color:#2A6B4A;">After — Google Form</div>
+            <div class="demo-col-body">Customer fills one form. All details land in a Google Sheet automatically. Priya wakes up to every order neatly listed. No back-and-forth. No missed details.</div>
+          </div>
+        </div>
+
+        <div class="sec-label">Step 1 — AI writes the form</div>
+        <div class="demo-prompt">
+          <div>
+            <div class="demo-prompt-label">Live prompt — run in class</div>
+            <div class="demo-prompt-text">"Create a Google Form for a home bakery called Priya's Cakes in Mumbai. Collect: customer name, phone, delivery date, cake flavor, size, frosting type, message on cake, delivery address, and budget. Write friendly labels and helpful placeholder text for each field. Also write a warm confirmation message the customer sees after submitting."</div>
+          </div>
+        </div>
+
+        <div class="sec-label">Step 2 — Build it in Google Forms</div>
+        <div class="demo-form-preview">
+          <div class="form-preview-header" style="background:#D4522A;">
+            <div class="form-preview-title">Order your custom cake</div>
+            <div class="form-preview-sub">Priya's Cakes, Mumbai — we'll confirm within 2 hours</div>
+          </div>
+          <div class="form-preview-body">
+            <div>
+              <div class="form-field-label">Your name *</div>
+              <div class="form-field-input">e.g. Sunita Sharma</div>
+            </div>
+            <div>
+              <div class="form-field-label">WhatsApp number *</div>
+              <div class="form-field-input">So we can confirm your order</div>
+            </div>
+            <div>
+              <div class="form-field-label">Delivery date needed *</div>
+              <div class="form-field-input">Please order at least 3 days in advance</div>
+            </div>
+            <div>
+              <div class="form-field-label">Cake flavor *</div>
+              <div class="form-field-options">
+                <div class="form-field-option"><div class="radio on"></div> Chocolate</div>
+                <div class="form-field-option"><div class="radio"></div> Vanilla</div>
+                <div class="form-field-option"><div class="radio"></div> Red Velvet</div>
+                <div class="form-field-option"><div class="radio"></div> Butterscotch</div>
+              </div>
+            </div>
+            <div>
+              <div class="form-field-label">Message on the cake</div>
+              <div class="form-field-input">e.g. Happy Birthday Arjun!</div>
+            </div>
+            <div>
+              <div class="form-field-label">Your budget (approx) *</div>
+              <div class="form-field-input">e.g. ₹1,500</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="demo-steps">
+          <div class="demo-step">
+            <div class="demo-step-num" style="background:#FAE8E1; color:#D4522A;">1</div>
+            <div>
+              <div class="demo-step-title">Go to Google Forms</div>
+              <div class="demo-step-detail">Free with any Google account. Click + to start a blank form.</div>
+              <div class="demo-step-path" style="background:#FAE8E1; color:#D4522A;">forms.google.com</div>
+            </div>
+          </div>
+          <div class="demo-step">
+            <div class="demo-step-num" style="background:#FAE8E1; color:#D4522A;">2</div>
+            <div>
+              <div class="demo-step-title">Add each field from the AI output</div>
+              <div class="demo-step-detail">Short Answer for text, Multiple Choice for flavor/size. Mark key fields as Required so customers can't skip them.</div>
+            </div>
+          </div>
+          <div class="demo-step">
+            <div class="demo-step-num" style="background:#FAE8E1; color:#D4522A;">3</div>
+            <div>
+              <div class="demo-step-title">Paste the AI confirmation message</div>
+              <div class="demo-step-detail">This is what the customer sees after submitting — warm, reassuring, tells them what happens next.</div>
+              <div class="demo-step-path" style="background:#FAE8E1; color:#D4522A;">Settings → Presentation → Confirmation message</div>
+            </div>
+          </div>
+          <div class="demo-step">
+            <div class="demo-step-num" style="background:#FAE8E1; color:#D4522A;">4</div>
+            <div>
+              <div class="demo-step-title">Connect to Google Sheets</div>
+              <div class="demo-step-detail">Every submission lands automatically in a spreadsheet. Priya opens the sheet and sees all orders in one place.</div>
+              <div class="demo-step-path" style="background:#FAE8E1; color:#D4522A;">Responses tab → Sheets icon → Create new sheet</div>
+            </div>
+          </div>
+          <div class="demo-step">
+            <div class="demo-step-num" style="background:#FAE8E1; color:#D4522A;">5</div>
+            <div>
+              <div class="demo-step-title">Share the link via WhatsApp Business</div>
+              <div class="demo-step-detail">Pin the form link in her WhatsApp Business profile and Instagram bio. Any customer who enquires gets sent this link.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sec-label">Step 3 — What Priya sees every morning</div>
+        <div class="demo-sheet">
+          <table class="sheet-table">
+            <tr>
+              <th>Timestamp</th><th>Name</th><th>WhatsApp</th><th>Date needed</th><th>Flavor</th><th>Cake message</th><th>Budget</th>
+            </tr>
+            <tr><td>12/03 9:14am</td><td>Sunita Sharma</td><td>98200 11234</td><td>15 March</td><td>Chocolate</td><td>Happy Bday Arjun</td><td>₹1,500</td></tr>
+            <tr><td>12/03 11:32am</td><td>Rahul Mehta</td><td>99870 45321</td><td>18 March</td><td>Red Velvet</td><td>Happy Anniversary</td><td>₹2,000</td></tr>
+            <tr class="sheet-new"><td>13/03 8:47am</td><td>Preethi Nair</td><td>98450 76543</td><td>20 March</td><td>Vanilla</td><td>Welcome Baby!</td><td>₹1,800</td></tr>
+          </table>
+        </div>
+
+        <div class="demo-tip" style="background:#FAE8E1; color:#7a2a12;">
+          <div class="demo-tip-label" style="color:#D4522A;">Teaching point</div>
+          Every order in one place — name, number, date, flavor, message, budget. All captured without a single back-and-forth. The student set this up in 45 minutes. It runs forever for free.
+        </div>
+
+        <div class="result-chips">
+          <div class="result-chip" style="background:#FAE8E1; color:#993C1D;">Zero back-and-forth</div>
+          <div class="result-chip" style="background:#EAF3DE; color:#3B6D11;">No missed orders</div>
+          <div class="result-chip" style="background:#E4ECFA; color:#2055A4;">Setup time: 45 min</div>
+          <div class="result-chip" style="background:#EEEDFE; color:#534AB7;">Free forever</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- DEMO 2: SHARMA CALENDLY -->
+    <div class="demo-card">
+      <div class="demo-card-header">
+        <div class="demo-card-icon" style="background:#E4ECFA;">📚</div>
+        <div>
+          <div class="demo-card-title">Sharma Classes</div>
+          <div class="demo-card-sub">Replacing phone-tag with a Calendly booking link for parent visits</div>
+        </div>
+        <div class="demo-card-tag" style="background:#E4ECFA; color:#185FA5;">Demo 2</div>
+      </div>
+      <div class="demo-card-body">
+
+        <div class="demo-two-col">
+          <div class="demo-col" style="background:#fff8f6;">
+            <div class="demo-col-label" style="color:#993C1D;">Before — phone chaos</div>
+            <div class="demo-col-body">Parents call during class to schedule visits. Sharma sir misses calls, double-books, forgets appointments. Some parents give up and choose another center.</div>
+          </div>
+          <div class="demo-col" style="background:#edf4fb;">
+            <div class="demo-col-label" style="color:#2055A4;">After — Calendly link</div>
+            <div class="demo-col-body">Parent clicks a link, picks a slot, gets an automatic confirmation. Sharma sir sees all appointments in his calendar. No calls. No double bookings. No no-shows.</div>
+          </div>
+        </div>
+
+        <div class="sec-label">Step 1 — AI writes the booking page</div>
+        <div class="demo-prompt">
+          <div>
+            <div class="demo-prompt-label">Live prompt — run in class</div>
+            <div class="demo-prompt-text">"Write a short description for a Calendly booking page for Sharma Classes, a coaching center in Nagpur for Class 8–12 students. Parents can book a 20-minute visit slot to see the center and meet the teacher. Keep it warm, professional, and under 60 words. Also write the confirmation email the parent receives after booking."</div>
+          </div>
+        </div>
+
+        <div class="sec-label">Step 2 — Set up Calendly</div>
+        <div class="demo-steps">
+          <div class="demo-step">
+            <div class="demo-step-num" style="background:#E4ECFA; color:#2055A4;">1</div>
+            <div>
+              <div class="demo-step-title">Create a free Calendly account</div>
+              <div class="demo-step-detail">Sign up free at calendly.com using Google. The free plan allows one event type — all Sharma sir needs.</div>
+              <div class="demo-step-path" style="background:#E4ECFA; color:#2055A4;">calendly.com → Sign up free</div>
+            </div>
+          </div>
+          <div class="demo-step">
+            <div class="demo-step-num" style="background:#E4ECFA; color:#2055A4;">2</div>
+            <div>
+              <div class="demo-step-title">Create the event type</div>
+              <div class="demo-step-detail">New Event Type → One-on-one → 20 minutes. Name it "Parent Visit — Sharma Classes". Paste the AI-written description.</div>
+            </div>
+          </div>
+          <div class="demo-step">
+            <div class="demo-step-num" style="background:#E4ECFA; color:#2055A4;">3</div>
+            <div>
+              <div class="demo-step-title">Set available hours</div>
+              <div class="demo-step-detail">e.g. Mon, Wed, Fri 5–7 PM only. Parents can only book within these windows. Teaching hours are automatically blocked.</div>
+              <div class="demo-step-path" style="background:#E4ECFA; color:#2055A4;">Availability → Set weekly hours</div>
+            </div>
+          </div>
+          <div class="demo-step">
+            <div class="demo-step-num" style="background:#E4ECFA; color:#2055A4;">4</div>
+            <div>
+              <div class="demo-step-title">Paste the AI confirmation email</div>
+              <div class="demo-step-detail">Include the address, what to bring, and what to expect. This sends automatically to every parent who books.</div>
+              <div class="demo-step-path" style="background:#E4ECFA; color:#2055A4;">Notifications → Confirmation email → Edit</div>
+            </div>
+          </div>
+          <div class="demo-step">
+            <div class="demo-step-num" style="background:#E4ECFA; color:#2055A4;">5</div>
+            <div>
+              <div class="demo-step-title">Share via WhatsApp quick reply</div>
+              <div class="demo-step-detail">Set up a /visit quick reply in WhatsApp Business with the Calendly link. Any parent who asks to visit gets the link in one tap.</div>
+              <div class="demo-step-path" style="background:#E4ECFA; color:#2055A4;">WhatsApp Business → Quick Replies → /visit</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sec-label">Step 3 — What the parent sees</div>
+        <div class="demo-cal-preview">
+          <div class="cal-preview-header">
+            <div class="cal-avatar-sm">SC</div>
+            <div>
+              <div class="cal-preview-name">Sharma Classes</div>
+              <div class="cal-preview-sub">Parent Visit — 20 minutes</div>
+            </div>
+          </div>
+          <div class="cal-preview-body">
+            <div class="cal-preview-left">
+              <div class="cal-event-name">Parent Visit</div>
+              <div class="cal-event-desc">Come see our center, meet the teacher, and find out if Sharma Classes is the right fit for your child.</div>
+              <div class="cal-event-meta">20 min &nbsp;·&nbsp; In person<br/>Nagpur, Maharashtra</div>
+            </div>
+            <div class="cal-preview-right">
+              <div class="cal-mini-month">March 2025</div>
+              <div class="cal-mini-grid">
+                <div class="cal-mini-day">M</div><div class="cal-mini-day">T</div><div class="cal-mini-day">W</div><div class="cal-mini-day">T</div><div class="cal-mini-day">F</div><div class="cal-mini-day">S</div><div class="cal-mini-day">S</div>
+                <div class="cal-mini-day avail">3</div><div class="cal-mini-day">4</div><div class="cal-mini-day avail">5</div><div class="cal-mini-day">6</div><div class="cal-mini-day avail">7</div><div class="cal-mini-day">8</div><div class="cal-mini-day">9</div>
+                <div class="cal-mini-day avail">10</div><div class="cal-mini-day">11</div><div class="cal-mini-day sel">12</div><div class="cal-mini-day">13</div><div class="cal-mini-day avail">14</div>
+              </div>
+              <div class="cal-slots-sm">
+                <div class="cal-slot-sm">5:00 PM</div>
+                <div class="cal-slot-sm">5:30 PM</div>
+                <div class="cal-slot-sm">6:00 PM</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sec-label">Automatic confirmation the parent receives</div>
+        <div class="confirm-card">
+          <div class="confirm-check-circle"><div class="confirm-inner"></div></div>
+          <div class="confirm-title">Your visit is confirmed</div>
+          <div class="confirm-sub">Looking forward to meeting you at Sharma Classes. Here's what you need.</div>
+          <div class="confirm-rows">
+            <div class="confirm-row"><span class="confirm-key">What</span><span class="confirm-val">Parent Visit — 20 min</span></div>
+            <div class="confirm-row"><span class="confirm-key">When</span><span class="confirm-val">Wed 12 March, 5:00 PM</span></div>
+            <div class="confirm-row"><span class="confirm-key">Where</span><span class="confirm-val">14 Civil Lines, Nagpur</span></div>
+            <div class="confirm-row"><span class="confirm-key">Bring</span><span class="confirm-val">Child's latest report card</span></div>
+          </div>
+        </div>
+
+        <div class="vs-strip">
+          <div class="vs-line"></div>
+          <div class="vs-badge-strip">If Calendly doesn't work — use Google Calendar instead</div>
+          <div class="vs-line"></div>
+        </div>
+
+        <div class="demo-steps">
+          <div class="demo-step">
+            <div class="demo-step-num" style="background:#E4F0EB; color:#2A6B4A;">1</div>
+            <div>
+              <div class="demo-step-title">Open Google Calendar</div>
+              <div class="demo-step-detail">100% free. Go to calendar.google.com and click any available time slot.</div>
+            </div>
+          </div>
+          <div class="demo-step">
+            <div class="demo-step-num" style="background:#E4F0EB; color:#2A6B4A;">2</div>
+            <div>
+              <div class="demo-step-title">Select "Appointment slots"</div>
+              <div class="demo-step-detail">Choose this instead of "Event". Set duration to 20 minutes. Google splits the block into bookable slots automatically.</div>
+              <div class="demo-step-path" style="background:#E4F0EB; color:#2A6B4A;">Click time → Appointment slots → 20 min</div>
+            </div>
+          </div>
+          <div class="demo-step">
+            <div class="demo-step-num" style="background:#E4F0EB; color:#2A6B4A;">3</div>
+            <div>
+              <div class="demo-step-title">Copy and share the booking link</div>
+              <div class="demo-step-detail">Google generates a booking page automatically. Parents book without needing a Google account. Both sides get a calendar invite when a slot is booked.</div>
+              <div class="demo-step-path" style="background:#E4F0EB; color:#2A6B4A;">Appointment event → View booking page → Copy link</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="demo-tip" style="background:#E4ECFA; color:#0C447C;">
+          <div class="demo-tip-label" style="color:#2055A4;">Teaching point</div>
+          The parent books, gets a confirmation, knows where to go and what to bring — all without a single call from Sharma sir. He finds out via a notification. That's the automation. The student set it up in 45 minutes.
+        </div>
+
+        <div class="result-chips">
+          <div class="result-chip" style="background:#E4ECFA; color:#185FA5;">Zero phone tag</div>
+          <div class="result-chip" style="background:#EAF3DE; color:#3B6D11;">Auto confirmations</div>
+          <div class="result-chip" style="background:#FAEEDA; color:#633806;">Setup: 45 min</div>
+          <div class="result-chip" style="background:#EEEDFE; color:#534AB7;">Free forever</div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- end demo-grid -->
+
+  <footer style="margin-top: 2rem;">
+    <p>Made for <strong>Week 3 — From Skills to Income in the World of AI</strong></p>
+  </footer>
+
+</div><!-- end page-demos -->
 
 <script>
   const panels = document.querySelectorAll('.case-panel');
-  const navLinks = document.querySelectorAll('.nav-link');
   const tabBtns = document.querySelectorAll('.tab-btn');
+  const navLinks = document.querySelectorAll('.nav-link');
+
+  function showPage(page) {
+    document.getElementById('page-cases').classList.toggle('visible', page === 'cases');
+    document.getElementById('page-demos').classList.toggle('visible', page === 'demos');
+    navLinks[0].classList.toggle('active', page === 'cases');
+    navLinks[1].classList.toggle('active', page === 'demos');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
   function show(idx, clicked) {
     panels.forEach((p, i) => p.classList.toggle('visible', i === idx));
-    navLinks.forEach((l, i) => l.classList.toggle('active', i === idx));
     tabBtns.forEach((t, i) => t.classList.toggle('active', i === idx));
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
